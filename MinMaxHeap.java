@@ -89,27 +89,28 @@ public class MinMaxHeap<T extends Comparable<T>> {
         {
             System.out.println("Heap is empty, nothing to delete");
         }
+        else {
+            T minValue = H1[1];
+            int h2Index = P1to2[1];
 
-        T minValue = H1[1];
-        int h2Index = P1to2[1];
+            // Move last element to root in both heaps
+            swapInH1(1, size);
+            swapInH2(h2Index, size);
 
-        // Move last element to root in both heaps
-        swapInH1(1, size);
-        swapInH2(h2Index, size);
+            size--;
 
-        size--;
+            //H1[size+1] and H2[size+1] are out of the heap
+            H1[size + 1] = null;
+            H2[size + 1] = null;
+            // If desired, clear the old mappings for that slot:
+            P1to2[size + 1] = 0;
+            P2to1[size + 1] = 0;
 
-        //H1[size+1] and H2[size+1] are out of the heap
-        H1[size + 1] = null;
-        H2[size + 1] = null;
-        // If desired, clear the old mappings for that slot:
-        P1to2[size + 1] = 0;
-        P2to1[size + 1] = 0;
-
-        // Purc down to fix order
-        if (size >= 1) {
-            purcDownMin(1);
-            purcDownMax(h2Index);
+            // Purc down to fix order
+            if (size >= 1) {
+                purcDownMin(1);
+                purcDownMax(h2Index);
+            }
         }
     }
 
@@ -118,28 +119,49 @@ public class MinMaxHeap<T extends Comparable<T>> {
         {
             System.out.println("Heap is empty, nothing to delete");
         }
+        else {
+            T maxValue = H2[1];
+            int h1Index = P2to1[1];
 
-        T maxValue = H2[1];
-        int h1Index = P2to1[1];
+            // Move last element to root in both heaps
+            swapInH2(1, size);
+            swapInH1(h1Index, size);
 
-        // Move last element to root in both heaps
-        swapInH2(1, size);
-        swapInH1(h1Index, size);
+            size--;
 
-        size--;
+            //H1[size+1] and H2[size+1] are out of the heap
+            H1[size + 1] = null;
+            H2[size + 1] = null;
+            // If desired, clear the old mappings for that slot:
+            P1to2[size + 1] = 0;
+            P2to1[size + 1] = 0;
 
-        //H1[size+1] and H2[size+1] are out of the heap
-        H1[size + 1] = null;
-        H2[size + 1] = null;
-        // If desired, clear the old mappings for that slot:
-        P1to2[size + 1] = 0;
-        P2to1[size + 1] = 0;
-
-        // Purc down to fix order
-        if (size >= 1) {
-            purcDownMin(h1Index);
-            purcDownMax(1);
+            // Purc down to fix order
+            if (size >= 1) {
+                purcDownMin(h1Index);
+                purcDownMax(1);
+            }
         }
+    }
+
+    public T findMin(){
+        if (size == 0)
+        {
+            System.out.println("Heap is empty, nothing to find min");
+            return null;
+        }
+        T minValue = H1[1];
+        return minValue;
+    }
+
+    public T findMax(){
+        if (size == 0)
+        {
+            System.out.println("Heap is empty, nothing to find max");
+            return null;
+        }
+        T maxValue = H2[1];
+        return maxValue;
     }
 
     //ALL OF THE HELP FUNCTIONS NEDDED FOR IMPLEMENTATION:
