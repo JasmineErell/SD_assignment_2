@@ -66,6 +66,24 @@ public class MinMaxHeap<T extends Comparable<T>> {
         }
     }
 
+    public void insert(T element) {
+        //Check capacity (if needed)
+        if (size + 1 >= H1.length) {
+            expandCapacity();
+        }
+        //Place the new element at index `size` in both heaps
+        size++;
+        H1[size] = element;
+        H2[size] = element;
+
+        // Initialize the mapping (H1[size] <--> H2[size])
+        P1to2[size] = size;
+        P2to1[size] = size;
+
+        purcUpMin(size);
+        purcUpMax(size);
+    }
+
     private void purcDownMin(int i) {
         // typical bubble-down logic (1-based)
         while (true) {
@@ -109,6 +127,31 @@ public class MinMaxHeap<T extends Comparable<T>> {
         }
     }
 
+    private void purcUpMin(int i) {
+        while (i > 1) {
+            int parent = i / 2;
+            System.out.println(H1[i]);
+            if (H1[i].compareTo(H1[parent]) < 0) {
+                swapInH1(i, parent);
+                i = parent;
+            } else {
+                break;
+            }
+        }
+    }
+
+    private void purcUpMax(int i) {
+        while (i > 1) {
+            int parent = i / 2;
+            if (H2[i].compareTo(H2[parent]) > 0) {
+                swapInH2(i, parent);
+                i = parent;
+            } else {
+                break;
+            }
+        }
+    }
+
     private void swapInH1(int i, int j) {
         // swap the elements in H1
         T temp = H1[i];
@@ -144,8 +187,35 @@ public class MinMaxHeap<T extends Comparable<T>> {
         P1to2[P2to1[j]] = j;
     }
 
+    @SuppressWarnings("unchecked")
+    private void expandCapacity() {
+        int oldLength = H1.length;       // current array size
+        int newLength = oldLength * 2;   // double it, or choose another strategy
+
+        // Create new arrays for both heaps and the mapping arrays
+        T[] newH1 = (T[]) new Comparable[newLength];
+        T[] newH2 = (T[]) new Comparable[newLength];
+        int[] newP1to2 = new int[newLength];
+        int[] newP2to1 = new int[newLength];
+
+        // Copy existing elements from index 1..size
+        for (int i = 1; i <= size; i++) {
+            newH1[i] = H1[i];
+            newH2[i] = H2[i];
+            newP1to2[i] = P1to2[i];
+            newP2to1[i] = P2to1[i];
+        }
+
+        // Update references
+        H1 = newH1;
+        H2 = newH2;
+        P1to2 = newP1to2;
+        P2to1 = newP2to1;
+    }
+
     public int getSize() {return this.size;}
-    public T[] getH1() { return H1; }
-    public T[] getH2() { return H2; }
+    public Comparable<?>[] getH1AsComparable() {return H1;}
+    public Comparable<?>[] getH2AsComparable() {return H2;}
+
 
 }

@@ -1,9 +1,7 @@
 import java.util.Arrays;
 public class testMinMaxHeap {
     public static void main(String[] args) {
-        testNoArgConstructor();
-        testCapacityConstructor();
-        testArrayConstructor();
+        testInsert();
     }
 
     private static void testNoArgConstructor() {
@@ -47,8 +45,8 @@ public class testMinMaxHeap {
         // 4) Print the resulting H1 (min-heap) and H2 (max-heap)
         //    We assume you have public T[] getH1(), T[] getH2() methods.
         //    Because of 1-based indexing, we’ll skip index 0 when printing.
-        System.out.println("MinHeap (H1) array: " + Arrays.toString(heap.getH1()));
-        System.out.println("MaxHeap (H2) array: " + Arrays.toString(heap.getH2()));
+        System.out.println("MinHeap (H1) array: " + Arrays.toString(heap.getH1AsComparable()));
+        System.out.println("MaxHeap (H2) array: " + Arrays.toString(heap.getH2AsComparable()));
 
         // 5) Print the size
         System.out.println("Heap size:           " + heap.getSize());
@@ -56,5 +54,52 @@ public class testMinMaxHeap {
         System.out.println("=== Test complete ===\n");
 
         System.out.println("Array constructor test complete.\n");
+    }
+
+    public static void testInsert() {
+        // 1) Create an initial array of Integers
+        Integer[] initialData = {5, 3, 8, 1, 2};
+
+        // 2) Construct a MinMaxHeap from that array
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(initialData);
+
+        // 3) Print initial state
+        System.out.println("=== After constructor ===");
+        System.out.println("Heap size: " + heap.getSize());
+        printH1(heap);
+        printH2(heap);
+
+        // 4) Insert exactly one new integer
+        int newValue = 9;
+        System.out.println("\nInserting " + newValue + "...");
+        heap.insert(newValue);
+
+        // 5) Print the final state
+        System.out.println("=== After inserting " + newValue + " ===");
+        System.out.println("Heap size: " + heap.getSize());
+        printH1(heap);
+        printH2(heap);
+    }
+
+    private static void printH1(MinMaxHeap<Integer> heap) {
+        Comparable<?>[] h1 = heap.getH1AsComparable();
+        int size = heap.getSize();
+        if (size >= 1) {
+            Object[] usedPortion = Arrays.copyOfRange(h1, 1, size + 1);
+            System.out.println("H1 (Min-heap) contents: " + Arrays.toString(usedPortion));
+        } else {
+            System.out.println("H1 is empty.");
+        }
+    }
+
+    private static void printH2(MinMaxHeap<Integer> heap) {
+        Comparable<?>[] h2 = heap.getH2AsComparable();
+        int size = heap.getSize();
+        if (size >= 1) {
+            Object[] usedPortion = Arrays.copyOfRange(h2, 1, size + 1);
+            System.out.println("H2 (Max-heap) contents: " + Arrays.toString(usedPortion));
+        } else {
+            System.out.println("H2 is empty.");
+        }
     }
 }
