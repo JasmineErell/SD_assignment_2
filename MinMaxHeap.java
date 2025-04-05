@@ -113,6 +113,35 @@ public class MinMaxHeap<T extends Comparable<T>> {
         }
     }
 
+    public void deleteMax() {
+        if (size == 0)
+        {
+            System.out.println("Heap is empty, nothing to delete");
+        }
+
+        T maxValue = H2[1];
+        int h1Index = P2to1[1];
+
+        // Move last element to root in both heaps
+        swapInH2(1, size);
+        swapInH1(h1Index, size);
+
+        size--;
+
+        //H1[size+1] and H2[size+1] are out of the heap
+        H1[size + 1] = null;
+        H2[size + 1] = null;
+        // If desired, clear the old mappings for that slot:
+        P1to2[size + 1] = 0;
+        P2to1[size + 1] = 0;
+
+        // Purc down to fix order
+        if (size >= 1) {
+            purcDownMin(h1Index);
+            purcDownMax(1);
+        }
+    }
+
     //ALL OF THE HELP FUNCTIONS NEDDED FOR IMPLEMENTATION:
     private void purcDownMin(int i) {
         // typical bubble-down logic (1-based)
