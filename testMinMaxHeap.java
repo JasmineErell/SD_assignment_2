@@ -1,7 +1,7 @@
 import java.util.Arrays;
 public class testMinMaxHeap {
     public static void main(String[] args) {
-        testInsert();
+        testDeleteMin();
     }
 
     private static void testNoArgConstructor() {
@@ -76,6 +76,30 @@ public class testMinMaxHeap {
 
         // 5) Print the final state
         System.out.println("=== After inserting " + newValue + " ===");
+        System.out.println("Heap size: " + heap.getSize());
+        printH1(heap);
+        printH2(heap);
+    }
+
+    public static void testDeleteMin() {
+        // 1) Create an initial array of Integers
+        Integer[] initialData = {5, 3, 8, 1, 2};
+
+        // 2) Construct a MinMaxHeap from that array
+        MinMaxHeap<Integer> heap = new MinMaxHeap<>(initialData);
+
+        // 3) Print initial state
+        System.out.println("=== Before deleteMin ===");
+        System.out.println("Heap size: " + heap.getSize());
+        printH1(heap);
+        printH2(heap);
+
+        // 4) Call deleteMin
+        heap.deleteMin();
+        System.out.println("\nCalled deleteMin(), removed: " );
+
+        // 5) Print new state
+        System.out.println("=== After deleteMin ===");
         System.out.println("Heap size: " + heap.getSize());
         printH1(heap);
         printH2(heap);

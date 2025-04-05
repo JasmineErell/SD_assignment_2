@@ -84,6 +84,36 @@ public class MinMaxHeap<T extends Comparable<T>> {
         purcUpMax(size);
     }
 
+    public void deleteMin() {
+        if (size == 0)
+        {
+            System.out.println("Heap is empty, nothing to delete");
+        }
+
+        T minValue = H1[1];
+        int h2Index = P1to2[1];
+
+        // Move last element to root in both heaps
+        swapInH1(1, size);
+        swapInH2(h2Index, size);
+
+        size--;
+
+        //H1[size+1] and H2[size+1] are out of the heap
+        H1[size + 1] = null;
+        H2[size + 1] = null;
+        // If desired, clear the old mappings for that slot:
+        P1to2[size + 1] = 0;
+        P2to1[size + 1] = 0;
+
+        // Purc down to fix order
+        if (size >= 1) {
+            purcDownMin(1);
+            purcDownMax(h2Index);
+        }
+    }
+
+    //ALL OF THE HELP FUNCTIONS NEDDED FOR IMPLEMENTATION:
     private void purcDownMin(int i) {
         // typical bubble-down logic (1-based)
         while (true) {
@@ -165,8 +195,6 @@ public class MinMaxHeap<T extends Comparable<T>> {
 
         // and tell H2 that these two elements changed places in H1
         // specifically, if H1[i] is now the old H1[j], we need to update P2to1
-        // but we must also swap in H2 the references if needed.
-        // Usually you only need to fix P2to1 for the two relevant entries:
         P2to1[P1to2[i]] = i;
         P2to1[P1to2[j]] = j;
     }
