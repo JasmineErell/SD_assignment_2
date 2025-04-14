@@ -1,3 +1,4 @@
+import java.util.NoSuchElementException;
 public class MinMaxHeap<T extends Comparable<T>> {
 
     private T[] H1; // Min-heap array (1-based)
@@ -84,13 +85,13 @@ public class MinMaxHeap<T extends Comparable<T>> {
         purcUpMax(size);
     }
 
-    public void deleteMin() {
+    public T deleteMin() {
+        T minValue = H1[1];
         if (size == 0)
         {
-            System.out.println("Heap is empty, nothing to delete");
+            throw new NoSuchElementException("Heap is empty, nothing to delete");
         }
         else {
-            T minValue = H1[1];
             int h2Index = P1to2[1];
 
             // Move last element to root in both heaps
@@ -112,15 +113,16 @@ public class MinMaxHeap<T extends Comparable<T>> {
                 purcDownMax(h2Index);
             }
         }
+        return minValue;
     }
 
-    public void deleteMax() {
+    public T deleteMax() {
+        T maxValue = H2[1];
         if (size == 0)
         {
-            System.out.println("Heap is empty, nothing to delete");
+            throw new NoSuchElementException("Heap is empty, nothing to delete");
         }
         else {
-            T maxValue = H2[1];
             int h1Index = P2to1[1];
 
             // Move last element to root in both heaps
@@ -142,6 +144,7 @@ public class MinMaxHeap<T extends Comparable<T>> {
                 purcDownMax(1);
             }
         }
+        return maxValue;
     }
 
     public T findMin(){

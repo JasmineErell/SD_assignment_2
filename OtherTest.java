@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
 
-public class BasicMinMaxHeapTest {
+public class OtherTest {
 
     static final long FIXED_RANDOMNESS_SEED = 1234L;
 
